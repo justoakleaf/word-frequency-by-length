@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portent Diviner</title>
+</head>
+<body>
+  <form id="myForm">
+    <label for="name">Text:</label>
+    <input type="text" id="words" name="words" required>
+    <label for="email">Word length:</label>
+    <input type="number" id="wordlen" name="wordlen" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  
+  <body>
+  <table>
+    <thead>
+      <th>Word</th>
+      <th>Popularity (low = rare, undefined = unrated)</th>
+    </thead>
+    <tbody id="putHere"></tbody>
+  </table>
+</body>
+
+<script type="text/javascript" src="./frequency.js"></script>
+
+  <script>
+    document.getElementById('myForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData)
+
+        console.log("got form", data)
+
+        const desiredLength = parseInt(data["wordlen"])
+        
+        // tokenise the words
+        const textTokens = data["words"].split(" ")
+
+        // TODO handle punctuation, apostrophes
+
+        // filter for relevant words
+        const unique = (arr) => [...new Set(arr)];
+        const desiredTokens = unique(textTokens).filter((e) => e.length == desiredLength)
+
+        // then order by popularity
+
+
+
+
+        // write html
+        html = "";
+
+        desiredTokens.forEach(function(e, i) {
+            console.log(e, freqs[e])
+            html += "<tr>" + "<td>" + e + "</td>" +  "<td>" + freqs[e] + "</td>"  + "</tr>";
+        })
+
+        document.getElementById("putHere").innerHTML = html;
+
+      } catch (error) {
+        console.error('There was a problem with the operation:', error);
+      }
+    });
+  </script>
+</body>
+</html>
